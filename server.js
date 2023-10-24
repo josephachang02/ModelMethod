@@ -5,7 +5,7 @@ const helmet = require('helmet'); // adds a bunch of standard security to server
 const Book = require('./models/Book.js');
 require('dotenv').config();
 require('./config/db.js');
-const PORT = 3000;
+const PORT = 3200;
 
 
 const app = express();
@@ -22,14 +22,14 @@ app.use(helmet());
 
 // START ROUTES //
 
-
-// find   - finds everything
-// .find()
- 
-// findById
-
+// insert one
+app.post('/books/insert', async (req,res) => {
+    let books = req.body.books;
+    let addBook = await Book.create(books);
+    res.send(addBook);
+})
 // insertMany
-app.post('/books', async (req, res) => {
+app.post('/books/insertMany', async (req, res) => {
     // in the request there should be an array of books objects.
     let books = req.body.books;
 
@@ -37,7 +37,24 @@ app.post('/books', async (req, res) => {
     res.send(dbResponse);
 })
 
-// findOne
+// .findById
+// rereview params 
+app.get('/books/findID:id', async (req,res) => {
+
+    let bookId = req.params.id;
+
+    let findBooks = await Book.findById(bookId);
+    res.send(findBooks);
+})
+
+// .findByIdAndDelete
+app.delete('/books/deleteByID:id', async (req,res) => {
+
+    let bookId = req.params.id;
+
+    let deleteBook = await Book.findByIdAndDelete(bookId);
+    res.send(deleteBook);
+})
 
 // END ROUTES //
 

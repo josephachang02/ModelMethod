@@ -37,14 +37,20 @@ app.post('/books/insertMany', async (req, res) => {
     res.send(dbResponse);
 })
 
-
+// Find all ooks
 app.get('/books',async(req,res)=>{
     let response = await Book.find();
     res.send(response)
 })
 
+// findOne
+app.get('/books/title/:title', async (req, res) => {
+    let title = req.params.title
+    let bookTitle = await Book.findOne({title: title})
+    res.send(bookTitle)
+})
+
 // .findById
-// rereview params 
 app.get('/books/findID:id', async (req,res) => {
 
     let bookId = req.params.id;

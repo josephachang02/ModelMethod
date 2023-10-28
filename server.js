@@ -23,7 +23,7 @@ app.use(helmet());
 // START ROUTES //
 
 // insert one
-app.post('/books/insert', async (req,res) => {
+app.post('/books', async (req,res) => {
     let books = req.body.books;
     let addBook = await Book.create(books);
     res.send(addBook);
@@ -37,6 +37,12 @@ app.post('/books/insertMany', async (req, res) => {
     res.send(dbResponse);
 })
 
+
+app.get('/books',async(req,res)=>{
+    let response = await Book.find();
+    res.send(response)
+})
+
 // .findById
 // rereview params 
 app.get('/books/findID:id', async (req,res) => {
@@ -48,11 +54,11 @@ app.get('/books/findID:id', async (req,res) => {
 })
 
 // .findByIdAndDelete
-app.delete('/books/deleteByID:id', async (req,res) => {
+app.delete('/books/:id', async (req,res) => {
 
     let bookId = req.params.id;
 
-    let deleteBook = await Book.findByIdAndDelete(bookId);
+    let deleteBook = await Book.findByIdAndDelete({_id : bookId});
     res.send(deleteBook);
 })
 
